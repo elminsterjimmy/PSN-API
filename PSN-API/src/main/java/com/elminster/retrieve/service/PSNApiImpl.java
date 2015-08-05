@@ -11,6 +11,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.elminster.common.parser.IParser;
 import com.elminster.common.parser.ParseException;
 import com.elminster.common.retrieve.RetrieveException;
+import com.elminster.common.util.ExceptionUtil;
 import com.elminster.retrieve.constants.PropertyKey;
 import com.elminster.retrieve.data.game.PSNGame;
 import com.elminster.retrieve.data.game.PSNTrophy;
@@ -58,6 +59,7 @@ public class PSNApiImpl implements IPSNApi {
       IParser<JsonUserProfile, PSNUserProfile> userProfileParser = new UserProfileParser();
       return userProfileParser.parse(jsonUserProfile);
     } catch (RetrieveException | IOException | ParseException e) {
+      logger.error(ExceptionUtil.getFullStackTrace(e));
       throw new ServiceException("Failed to get user profile for user: [" + psnUsername + "]. Caused by: " + e);
     }
   }
@@ -82,6 +84,7 @@ public class PSNApiImpl implements IPSNApi {
       IParser<JsonGameList, List<PSNUserGame>> userGameListParser = new UserGameListParser();
       return userGameListParser.parse(jsonGameList);
     } catch (RetrieveException | IOException | ParseException e) {
+      logger.error(ExceptionUtil.getFullStackTrace(e));
       throw new ServiceException("Failed to get user's game list for user: [" + psnUsername + "]. Caused by: " + e);
     }
   }
@@ -104,6 +107,7 @@ public class PSNApiImpl implements IPSNApi {
       IParser<JsonCompareTrophies, List<PSNUserTrophy>> userGameTrophyParser = new UserGameTrophyParser();
       return userGameTrophyParser.parse(jsonCompareTrophies);
     } catch (RetrieveException | IOException | ParseException e) {
+      logger.error(ExceptionUtil.getFullStackTrace(e));
       throw new ServiceException("Failed to get user's game achievement for user: [" + psnUsername + "], gameId: ["
           + psnGameId + "]. Caused by: " + e);
     }

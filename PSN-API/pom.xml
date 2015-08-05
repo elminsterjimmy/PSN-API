@@ -24,6 +24,13 @@
         </includes>
       </resource>
       <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*.properties</include>
+          <include>**/*.yml</include>
+        </includes>
+      </resource>
+      <resource>
         <directory>src/test/java</directory>
         <includes>
           <include>**/*.properties</include>
@@ -37,7 +44,6 @@
           <include>**/*.properties</include>
           <include>**/*.sql</include>
           <include>**/*.xml</include>
-          <include>**/*.txt</include>
         </includes>
       </resource>
     </resources>

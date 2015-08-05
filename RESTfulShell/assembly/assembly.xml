@@ -1,0 +1,35 @@
+<assembly xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/assembly-1.0.0.xsd">
+  <id>assembly</id>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <formats>
+    <format>dir</format>
+    <format>zip</format>
+  </formats>
+  <fileSets>
+    <fileSet>
+      <outputDirectory>.</outputDirectory>
+      <directory>${project.basedir}/target</directory>
+      <includes>
+        <include>*.jar</include>
+      </includes>
+      <excludes>
+        <exclude>*-source.jar</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet>
+      <outputDirectory>.</outputDirectory>
+      <directory>${project.basedir}/shell</directory>
+      <includes>
+        <include>*</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <outputDirectory>.</outputDirectory>
+      <directory>${project.basedir}/config</directory>
+      <includes>
+        <include>*</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+
+</assembly>

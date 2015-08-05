@@ -173,7 +173,14 @@ public class BaseRetriever extends CookieInjectRetriever {
       throw new LoginFailedException("oath returns " + status);
     }
     
-    // TODO check login success
+    // FIXME check login success
+    String oathResponse = oathMethod.getResponseBodyAsString();
+    if (logger.isDebugEnabled()) {
+      logger.debug("response from OATH: " + oathResponse);
+    }
+    if (oathResponse.contains("signInPage")) {
+      throw new LoginFailedException("login denied. please check username and password again.");
+    }
     
     writeCookies(client);
     // release the client
@@ -181,9 +188,9 @@ public class BaseRetriever extends CookieInjectRetriever {
   }
 
   /**
-   * 
-   * @param responseHeaders
-   * @throws IOException 
+   * Write the cookies into a cache file.
+   * @param client the http client
+   * @throws IOException on error
    */
   private void writeCookies(HttpClient client) throws IOException {
     StringBuilder cookie = new StringBuilder();
@@ -209,13 +216,12 @@ public class BaseRetriever extends CookieInjectRetriever {
    * @throws IOException
    *           on error
    */
-  protected Cookie[] readCookies() throws IOException {
+  protected Cookie[] readCookies() throws Exception {
     if (!checkCookieValid()) {
       try {
         loginIntoPSN();
       } catch (URISyntaxException | LoginFailedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+        throw e;
       }
     }
     systemSetting.updateLastApiCalledTime();

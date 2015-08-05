@@ -22,7 +22,7 @@ import com.elminster.common.util.FileUtil;
 public class SystemSetting extends CommonConfiguration {
 
   /** the system properties. */
-  private static final String SYSTEM_PROPERTIES = "System.properties";
+  private static final String SYSTEM_PROPERTIES = "system.properties";
   /** the property name: last api called time. */
   private static final String LAST_API_CALLED_TIME = "LAST_API_CALLED_TIME";
   /** the property name: PSN username. */
