@@ -44,7 +44,7 @@ public class UserGameTrophyParser implements IParser<JsonCompareTrophies, List<P
             PSNUserTrophy userTrophy = new PSNUserTrophy();
             userTrophy.setDescription(ti.getDesc());
             String trophyWon = ti.getTrophyWon();
-            if (StringUtil.isNotEmpty(trophyWon)) {
+            if (StringUtil.isNotEmpty(trophyWon) && "0" != trophyWon) {
               userTrophy.setEarned(true);
               String trophyStamp = ti.getTrophyStamp();
               // eg. 2015-01-07T15:45:12Z
