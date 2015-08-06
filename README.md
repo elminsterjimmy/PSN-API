@@ -23,7 +23,7 @@ PSN_USERNAME=\<PSN username\>
 PSN_PASSWORD=\<PSN password\>
 
 - ####For End-Users
-    - Download the RESUful service [distribution] (https://)
+    - Download the RESUful service [distribution] (https://github.com/elminsterjimmy/PSN-API/tree/master/distribution)
     - Unpack it in your computer
     - Set the login information for PSN
         - Open "system.properties" file and fill the PSN username and password and save the file
