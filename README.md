@@ -23,6 +23,7 @@ PSN_USERNAME=\<PSN username\>
 PSN_PASSWORD=\<PSN password\>
 
 - ####For End-Users
+    - Get yourself a JRE 1.7 envrionment ([here](http://www.oracle.com/technetwork/cn/java/javase/downloads/jre7-downloads-1880261.html))
     - Download the RESUful service [distribution] (https://github.com/elminsterjimmy/PSN-API/tree/master/distribution)
     - Unpack it in your computer
     - Set the login information for PSN
