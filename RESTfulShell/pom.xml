@@ -72,6 +72,26 @@
               <goal>run</goal>
             </goals>
           </execution>
+          <execution>
+            <id>copyDistribution</id>
+            <phase>install</phase>
+            <configuration>
+              <tasks>
+                <echo message="copy distribution" />
+                <tstamp>
+                  <format property="time.stamp" pattern="yyyyMMdd" />
+                </tstamp>
+                <copy tofile="${project.basedir}/../distribution/distribution-${time.stamp}.zip">
+                  <fileset dir="${project.basedir}/target/">
+                    <include name="*-assembly.zip" />
+                  </fileset>
+                </copy>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
         </executions>
       </plugin>
 
