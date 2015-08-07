@@ -44,17 +44,17 @@ public class UserGameTrophyParser implements IParser<JsonCompareTrophies, List<P
             PSNUserTrophy userTrophy = new PSNUserTrophy();
             userTrophy.setDescription(ti.getDesc());
             String trophyWon = ti.getTrophyWon();
-            if (StringUtil.isNotEmpty(trophyWon) && "0" != trophyWon) {
-              userTrophy.setEarned(true);
+            if (StringUtil.isNotEmpty(trophyWon) && !"0".equals(trophyWon)) {
               String trophyStamp = ti.getTrophyStamp();
               // eg. 2015-01-07T15:45:12Z
               Date date = null;
               try {
                 date = DateUtil.parserDateStr(trophyStamp, DateUtil.ISO8601_FORMAT);
+                userTrophy.setEarned(true);
+                userTrophy.setEarnedDate(date);
               } catch (java.text.ParseException e) {
                 logger.warn("failed to parse the date: " + trophyStamp);
               }
-              userTrophy.setEarnedDate(date);
             }
             userTrophy.setGameId(gameId);
             userTrophy.setImageUrl(ti.getImgUrl());

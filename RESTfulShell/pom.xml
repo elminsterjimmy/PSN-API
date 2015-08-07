@@ -2,7 +2,6 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>psn-api-restful-shell</artifactId>
-  <version>${psn.api.version}</version>
   <build>
     <resources>
       <resource>
@@ -155,9 +154,19 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-log4j</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
   <properties>
     <psn.api.version>0.0.1-SNAPSHOT</psn.api.version>
     <spring.boot.version>1.2.5.RELEASE</spring.boot.version>
   </properties>
+  <version>0.1.0-SNAPSHOT</version>
 </project>

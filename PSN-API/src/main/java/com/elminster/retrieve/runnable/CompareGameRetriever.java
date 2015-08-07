@@ -25,6 +25,7 @@ public class CompareGameRetriever extends BaseRetriever {
         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36");
     httpMethod.setRequestHeader("Referer", "https://my.playstation.com/logged-in/trophies/compare-game-trophies/");
     httpMethod.setRequestHeader("Accept-Encoding", "gzip, deflate, sdch");
+    httpMethod.setRequestHeader("Accept-Language", "zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4,zh-TW;q=0.2");
     httpMethod.setRequestHeader("AlexaToolbar-ALX_NS_PH", "AlexaToolbar/alxg-3.3");
     String cookie = "";
     Cookie[] cookies = client.getState().getCookies();

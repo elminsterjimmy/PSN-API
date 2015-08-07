@@ -1,2 +1,13 @@
 server:
   port: 8090
+spring:
+  jpa:
+    show-sql: true
+    database: HSQL
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+      naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
+  datasource:
+    url: jdbc:hsqldb:file:db/
+    username: sa

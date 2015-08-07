@@ -2,20 +2,26 @@ package com.elminster.retrieve.data.game;
 
 public enum TrophyType {
 
-  UNKNOWN("Unknown"),
-  BRONZE("Bronze"),
-  SILVER("Silver"),
-  GOLD("Gold"), 
-  PLATINUM("Platinum");
+  UNKNOWN("Unknown", 0xFF),
+  BRONZE("Bronze", 0x01),
+  SILVER("Silver", 0x02),
+  GOLD("Gold", 0x04), 
+  PLATINUM("Platinum", 0x08);
 
   private final String name;
+  private final int type;
 
-  TrophyType(String name) {
+  TrophyType(String name, int type) {
     this.name = name;
+    this.type = type;
   }
 
   public String getName() {
     return name;
+  }
+  
+  public int getType() {
+    return type;
   }
   
   public static TrophyType getTrophyType(String type) {
@@ -31,5 +37,14 @@ public enum TrophyType {
       default:
         return UNKNOWN;
     }
+  }
+  
+  public static TrophyType getTrophyType(int type) {
+    for (TrophyType t : TrophyType.values()) {
+      if (type == t.getType()) {
+        return t;
+      }
+    }
+    return UNKNOWN;
   }
 }
