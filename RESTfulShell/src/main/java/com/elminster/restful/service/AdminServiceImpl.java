@@ -2,20 +2,17 @@ package com.elminster.restful.service;
 
 import java.io.IOException;
 
-import javax.transaction.Transactional;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ExitCodeGenerator;
-import org.springframework.boot.SpringApplication;
 import org.springframework.stereotype.Service;
 
 import com.elminster.common.util.ExceptionUtil;
-import com.elminster.restful.Application;
 import com.elminster.restful.dao.IAdminDao;
 import com.elminster.restful.data.ExitCode;
-import com.elminster.retrieve.exception.ServiceException;
 import com.elminster.retrieve.util.SystemSetting;
 
 /**
@@ -31,19 +28,23 @@ public class AdminServiceImpl implements IAdminService {
   private static final Log logger = LogFactory.getLog(AdminServiceImpl.class);
   
   private final IAdminDao adminDao;
+  private EntityManager em;
   
   @Autowired
   public AdminServiceImpl(IAdminDao adminDao) {
     this.adminDao = adminDao;
   }
   
+  @Autowired
+  public void setEntityManager(EntityManager em) {
+    this.em = em;
+  }
+  
   /**
-   * Shutdown the server.
+   * dump the data.
    */
-  @Transactional
   @Override
-  public int shutdown() throws ServiceException {
-    logger.info("User shutdown.");
+  public int savepoint() {
     int ec = ExitCode.NORMAL.getCode();
     // save cookies
     try {
@@ -52,22 +53,16 @@ public class AdminServiceImpl implements IAdminService {
       ec &= ExitCode.COOKIE_SAVE_FAILED.getCode();
     }
     // dump db
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
     try {
       adminDao.dumpData();
+      tx.commit();
     } catch (Exception e) {
       logger.error("failed to dump data. Cause: " + ExceptionUtil.getFullStackTrace(e));
+      tx.rollback();
       ec &= ExitCode.DB_DUMP_FAILED.getCode();
     }
-    final int exitCode = ec;
-    ExitCodeGenerator exitCodeGenerator = new ExitCodeGenerator() {
-
-      @Override
-      public int getExitCode() {
-        return exitCode;
-      }
-      
-    };
-    SpringApplication.exit(Application.context, exitCodeGenerator); 
-    return exitCode;
+    return ec;
   }
 }
