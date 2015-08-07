@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.elminster.restful.service.IUserGameService;
 import com.elminster.restful.service.IUserGameTrophyService;
 import com.elminster.retrieve.data.user.PSNUserGame;
 import com.elminster.retrieve.data.user.PSNUserProfile;
@@ -30,11 +29,9 @@ public class PSNApiController {
   private static final IPSNApi API = new PSNApiImpl();
   
   private final IUserGameTrophyService userGameTrophyService;
-  private final IUserGameService userGameService;
   
   @Autowired
-  public PSNApiController(IUserGameService userGameService, IUserGameTrophyService userGameTrophyService) {
-    this.userGameService = userGameService;
+  public PSNApiController(IUserGameTrophyService userGameTrophyService) {
     this.userGameTrophyService = userGameTrophyService;
   }
 
@@ -47,7 +44,7 @@ public class PSNApiController {
   @RequestMapping(value = "/userGameList/{username}", method = RequestMethod.GET)
   public @ResponseBody List<PSNUserGame> getUserGameList(
       @PathVariable("username") String username) throws ServiceException {
-    return userGameService.getUserGameList(username);
+    return API.getPSNUserGameList(username);
   }
   
   @RequestMapping(value = "/userGameTrophyList/{username}/{gameId}", method = RequestMethod.GET)
