@@ -42,7 +42,7 @@ public class UserGameListParser extends BaseParser implements IParser<JsonGameLi
           userGame.setEarnedSilver((byte) silver);
           
           if (100 == completion) {
-            userGame.setGlodCount((byte) gold);
+            userGame.setGoldCount((byte) gold);
             userGame.setBronzeCount((byte) bronze);
             userGame.setPlatinumCount((byte) platinum);
             userGame.setSilverCount((byte) silver);

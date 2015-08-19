@@ -17,7 +17,7 @@ public class PSNGame {
   private short totalPoint;
   private byte bronzeCount;
   private byte silverCount;
-  private byte glodCount;
+  private byte goldCount;
   private byte platinumCount;
   private String imageUrl;
   private List<Platform> platform;
@@ -109,14 +109,14 @@ public class PSNGame {
   /**
    * @return the glodCount
    */
-  public byte getGlodCount() {
-    return glodCount;
+  public byte getGoldCount() {
+    return goldCount;
   }
   /**
    * @param glodCount the glodCount to set
    */
-  public void setGlodCount(byte glodCount) {
-    this.glodCount = glodCount;
+  public void setGoldCount(byte goldCount) {
+    this.goldCount = goldCount;
   }
   /**
    * @return the platinumCount
