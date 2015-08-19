@@ -100,6 +100,7 @@ public class UserGameServiceImpl implements IUserGameService {
       game.setGlodCount(gold);
       game.setSilverCount(silver);
       game.setPlatinumCount(platinum);
+      game.setTotalCount(bronze + gold + silver + platinum);
     }
     return game;
   }

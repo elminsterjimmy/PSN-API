@@ -41,6 +41,8 @@ public class Game implements Serializable {
   private int glodCount = 0;
   @Column(nullable = false, length=3)
   private int platinumCount = 0;
+  @Column(nullable = false, length=3)
+  private int totalCount = 0;
   @Column(length=1024)
   private String imageUrl;
   @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)    
@@ -144,6 +146,18 @@ public class Game implements Serializable {
    */
   public void setPlatinumCount(int platinumCount) {
     this.platinumCount = platinumCount;
+  }
+  /**
+   * @return the totalCount
+   */
+  public int getTotalCount() {
+    return totalCount;
+  }
+  /**
+   * @param totalCount the totalCount to set
+   */
+  public void setTotalCount(int totalCount) {
+    this.totalCount = totalCount;
   }
   /**
    * @return the imageUrl
