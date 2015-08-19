@@ -6,7 +6,7 @@ import com.elminster.retrieve.data.json.JsonTrophy;
 import com.elminster.retrieve.data.json.JsonUserProfile;
 import com.elminster.retrieve.data.user.PSNUserProfile;
 
-public class UserProfileParser implements IParser<JsonUserProfile, PSNUserProfile> {
+public class UserProfileParser extends BaseParser implements IParser<JsonUserProfile, PSNUserProfile> {
 
   @Override
   public PSNUserProfile parse(JsonUserProfile json) throws ParseException {
@@ -24,7 +24,7 @@ public class UserProfileParser implements IParser<JsonUserProfile, PSNUserProfil
       profile.setTotalPlatinum(jt.getPlatinum());
       profile.setTotalSilver(jt.getSilver());
     }
-    profile.setUserAvatarUrl(json.getAvatarUrl());
+    profile.setUserAvatarUrl(parseUrl(json.getAvatarUrl()));
     profile.setUsername(json.getHandle());
     profile.setTotalLevel((short) json.getTotalLevel());
     return profile;

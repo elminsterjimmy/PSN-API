@@ -14,7 +14,7 @@ import com.elminster.retrieve.data.json.JsonGameList;
 import com.elminster.retrieve.data.json.JsonTrophy;
 import com.elminster.retrieve.data.user.PSNUserGame;
 
-public class UserGameListParser implements IParser<JsonGameList, List<PSNUserGame>> {
+public class UserGameListParser extends BaseParser implements IParser<JsonGameList, List<PSNUserGame>> {
 
   private static final String PLATFORM_SPLIT = StringConstants.COMMA;
 
@@ -49,7 +49,7 @@ public class UserGameListParser implements IParser<JsonGameList, List<PSNUserGam
           }
         }
         userGame.setGameId(jg.getGameId());
-        userGame.setImageUrl(jg.getImgUrl());
+        userGame.setImageUrl(parseUrl(jg.getImgUrl()));
         userGame.setPlatform(parsePlatform(jg.getPlatform()));
         userGame.setTitle(jg.getTitle());
         userGames.add(userGame);

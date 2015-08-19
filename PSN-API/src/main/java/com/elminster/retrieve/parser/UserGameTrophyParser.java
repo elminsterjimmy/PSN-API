@@ -18,7 +18,7 @@ import com.elminster.retrieve.data.json.JsonGameUser;
 import com.elminster.retrieve.data.json.JsonTrophyInfo;
 import com.elminster.retrieve.data.user.PSNUserTrophy;
 
-public class UserGameTrophyParser implements IParser<JsonCompareTrophies, List<PSNUserTrophy>> {
+public class UserGameTrophyParser extends BaseParser implements IParser<JsonCompareTrophies, List<PSNUserTrophy>> {
 
   /** the logger. */
   private static final Log logger = LogFactory.getLog(UserGameTrophyParser.class);
@@ -57,7 +57,7 @@ public class UserGameTrophyParser implements IParser<JsonCompareTrophies, List<P
               }
             }
             userTrophy.setGameId(gameId);
-            userTrophy.setImageUrl(ti.getImgUrl());
+            userTrophy.setImageUrl(parseUrl(ti.getImgUrl()));
             userTrophy.setTitle(ti.getTitle());
             userTrophy.setTrophyId(String.valueOf(ti.getTrophyId()));
             userTrophy.setType(TrophyType.getTrophyType(ti.getType()));
