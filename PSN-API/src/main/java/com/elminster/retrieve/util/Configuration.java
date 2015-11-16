@@ -15,12 +15,6 @@ import com.elminster.common.config.CommonConfiguration;
 public class Configuration extends CommonConfiguration {
   /** the XBox live URL properties. */
   private static final String PSN_URL_PROPERTIES = "PSNUrls.properties";
-  /** the user profile xpath properties. */
-  private static final String USER_PROFILE_XPATH_PROPERTIES = "UserProfileXPath.properties";
-  /** the user's game list xpath properties. */
-  private static final String USER_GAME_LIST_XPATH_PROPERTIES = "GameListXPath.properties";
-  /** the user's game achievement list xpath properties. */
-  private static final String USER_GAME_ACHIEVE_XPATH_PROPERTIES = "GameAchieveXPath.properties";
   /** the properties file list. */
   private static final List<String> propertiesList = new ArrayList<String>();
   
@@ -29,9 +23,6 @@ public class Configuration extends CommonConfiguration {
    */
   static {
     propertiesList.add(PSN_URL_PROPERTIES);
-    propertiesList.add(USER_PROFILE_XPATH_PROPERTIES);
-    propertiesList.add(USER_GAME_LIST_XPATH_PROPERTIES);
-    propertiesList.add(USER_GAME_ACHIEVE_XPATH_PROPERTIES);
   }
   
   /** the singleton instance. */

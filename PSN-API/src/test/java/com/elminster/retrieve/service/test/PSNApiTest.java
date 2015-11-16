@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.junit.AfterClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.elminster.retrieve.data.user.PSNUserGame;
@@ -18,7 +17,7 @@ public class PSNApiTest {
   
   IPSNApi api = new PSNApiImpl();
 
-  @Ignore
+  //@Ignore
   @Test
   public void testRetrieveUserProfile() throws Exception {
     String psnUser = "truebeibeiking";
@@ -26,7 +25,7 @@ public class PSNApiTest {
     System.out.println(profile);
   }
   
-  @Ignore
+  //@Ignore
   @Test
   public void testRetrieveUserGameList() throws Exception {
     //String psnUser = "Roughdawg4";
