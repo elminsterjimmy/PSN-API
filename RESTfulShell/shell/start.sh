@@ -1,1 +1,1 @@
-java -jar psn-api-restful-shell-0.1.0-SNAPSHOT.jar
+java -jar psn-api-restful-shell-0.2.0-SNAPSHOT.jar
