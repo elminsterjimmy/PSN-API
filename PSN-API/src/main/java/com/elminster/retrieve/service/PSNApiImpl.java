@@ -1,5 +1,6 @@
 package com.elminster.retrieve.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
@@ -8,10 +9,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.elminster.common.constants.Constants.StringConstants;
 import com.elminster.common.parser.IParser;
 import com.elminster.common.parser.ParseException;
 import com.elminster.common.retrieve.RetrieveException;
 import com.elminster.common.util.ExceptionUtil;
+import com.elminster.common.util.FileUtil;
 import com.elminster.retrieve.constants.PropertyKey;
 import com.elminster.retrieve.data.game.PSNGame;
 import com.elminster.retrieve.data.game.PSNTrophy;
@@ -95,9 +98,17 @@ public class PSNApiImpl implements IPSNApi {
   @Override
   public List<PSNUserTrophy> getPSNUserGameTrophies(String psnUsername, String psnGameId) throws ServiceException {
     String compareGameUrl = Configuration.INSTANCE.getStringProperty(PropertyKey.PSN_COMPARE_GAME_URL);
-    String url = MessageFormat.format(compareGameUrl, psnGameId, psnUsername);
-    BaseRetriever retriever = new CompareGameRetriever(url);
+    File cookieFile = new File(BaseRetriever.COOKIE_FILE);
+    if (!cookieFile.exists()) {
+      getPSNUserProfile("test");
+    }
     try {
+      String userinfo = getCookieValue("userinfo");
+      long current = System.currentTimeMillis();
+      // magic number 0.0xxxxxxxxxxxxxxxx
+      double magicNumber = Math.random();
+      String url = MessageFormat.format(compareGameUrl, psnGameId, psnUsername, userinfo, String.valueOf(current), String.valueOf(magicNumber));
+      BaseRetriever retriever = new CompareGameRetriever(url);
       String json = retriever.retrieve().getBody();
       if (logger.isDebugEnabled()) {
         logger.debug("received json: " + json);
@@ -129,4 +140,29 @@ public class PSNApiImpl implements IPSNApi {
     throw new UnsupportedOperationException("Unsupported yet.");
   }
 
+  /**
+   * Get the userinfo cookie.
+   * @throws IOException on error
+   */
+  public String getCookieValue(String key) throws IOException {
+    File cookieFile = new File(BaseRetriever.COOKIE_FILE);
+    if (cookieFile.exists()) {
+      String cookieInfo = FileUtil.readFile2String(cookieFile.getAbsolutePath());
+      if (null != cookieInfo) {
+        String[] cookies = cookieInfo.split(StringConstants.AND);
+        for (String cookie : cookies) {
+          int idx = cookie.indexOf(StringConstants.EQUAL);
+          String cookieKey = cookie.substring(0, idx);
+          if (key.equals(cookieKey)) {
+            String value = cookie.substring(idx + 1);
+            if (logger.isDebugEnabled()) {
+              logger.debug("cookie: " + cookieKey + "=" + value);
+            }
+            return value.replaceAll(StringConstants.EQUAL, "%3D").replaceAll(StringConstants.SLASH, "%2F");
+          }
+        }
+      }
+    }
+    throw new IllegalStateException(key + " is not available.");
+  }
 }

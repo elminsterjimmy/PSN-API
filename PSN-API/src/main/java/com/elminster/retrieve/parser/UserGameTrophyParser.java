@@ -31,6 +31,9 @@ public class UserGameTrophyParser extends BaseParser implements IParser<JsonComp
     if (null == json) {
       return null;
     }
+    if (logger.isDebugEnabled()) {
+      logger.debug(json);
+    }
     List<PSNUserTrophy> userTrophies = new ArrayList<PSNUserTrophy>();
     String gameId = json.getGameId();
     List<JsonGameUser> gameUsers = json.getUsers();

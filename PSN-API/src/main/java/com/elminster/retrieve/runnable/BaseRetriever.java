@@ -43,7 +43,10 @@ public class BaseRetriever extends CookieInjectRetriever {
   /** the system setting. */
   private static final SystemSetting systemSetting = SystemSetting.INSTANCE;
   /** the cookie file. */
-  private static final String COOKIE_FILE = "cookie/" + systemSetting.getPSNUsername() + FileExtensionConstants.TEXT_EXTENSION;
+  public static final String COOKIE_FILE = "cookie/" + systemSetting.getPSNUsername()
+      + FileExtensionConstants.TEXT_EXTENSION;
+
+  private static final String LANG = "ja";
 
   /**
    * Constructor.
@@ -73,7 +76,7 @@ public class BaseRetriever extends CookieInjectRetriever {
       }
       return true;
     }
-    
+
     return false;
   }
 
@@ -89,10 +92,10 @@ public class BaseRetriever extends CookieInjectRetriever {
    */
   private void loginIntoPSN() throws IOException, URISyntaxException, LoginFailedException {
     HttpClient client = new HttpClient();
-    
+
     CookiePolicy.registerCookieSpec("PermitAllCookiesSpec", PermitAllCookiesSpec.class);
     client.getParams().setCookiePolicy("PermitAllCookiesSpec");
-    
+
     // get base info from public profile
     String loginUrl = configuration.getStringProperty(PropertyKey.PSN_LOGIN_URL);
     String oathUrl = configuration.getStringProperty(PropertyKey.PSN_OATH_URL);
@@ -113,7 +116,7 @@ public class BaseRetriever extends CookieInjectRetriever {
         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36");
     loginMethod.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     loginMethod.setRequestHeader("Accept-Encoding", "gzip, deflate");
-    loginMethod.setRequestHeader("Accept-Language", "zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4,zh-TW;q=0.2");
+    loginMethod.setRequestHeader("Accept-Language", LANG);
     loginMethod.setRequestHeader("AlexaToolbar-ALX_NS_PH", "AlexaToolbar/alxg-3.3");
     // j_username
     // j_password
@@ -127,21 +130,21 @@ public class BaseRetriever extends CookieInjectRetriever {
     if (200 != status && 302 != status) {
       throw new LoginFailedException("login returns " + status);
     }
-    
+
     if (logger.isDebugEnabled()) {
       logger.debug("response from login: " + loginMethod.getResponseBodyAsString());
     }
 
-//    // get next url
-//
-//    if (null != responseHeaders) {
-//      for (Header h : responseHeaders) {
-//        System.out.println(h);
-//        // if ("Location".equals(h.getName())) {
-//        // nextUrl = h.getValue();
-//        // }
-//      }
-//    }
+    // // get next url
+    //
+    // if (null != responseHeaders) {
+    // for (Header h : responseHeaders) {
+    // System.out.println(h);
+    // // if ("Location".equals(h.getName())) {
+    // // nextUrl = h.getValue();
+    // // }
+    // }
+    // }
 
     logger.info("login with OATH.");
 
@@ -165,7 +168,7 @@ public class BaseRetriever extends CookieInjectRetriever {
     oathMethod.setRequestHeader("Referer",
         "https://auth.api.sonyentertainmentnetwork.com/login.jsp?service_entity=psn&request_theme=liquid");
     oathMethod.setRequestHeader("Accept-Encoding", "gzip, deflate, sdch");
-    oathMethod.setRequestHeader("Accept-Language", "zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4,zh-TW;q=0.2");
+    oathMethod.setRequestHeader("Accept-Language", LANG);
     oathMethod.setRequestHeader("AlexaToolbar-ALX_NS_PH", "AlexaToolbar/alxg-3.3");
     oathMethod.setRequestHeader("Cookie", cookie.toString());
 
@@ -173,7 +176,7 @@ public class BaseRetriever extends CookieInjectRetriever {
     if (200 != status) {
       throw new LoginFailedException("oath returns " + status);
     }
-    
+
     // FIXME check login success
     String oathResponse = oathMethod.getResponseBodyAsString();
     if (logger.isDebugEnabled()) {
@@ -182,7 +185,7 @@ public class BaseRetriever extends CookieInjectRetriever {
     if (oathResponse.contains("signInPage")) {
       throw new LoginFailedException("login denied. please check username and password again.");
     }
-    
+
     writeCookies(client);
     // release the client
     client = null;
@@ -190,8 +193,11 @@ public class BaseRetriever extends CookieInjectRetriever {
 
   /**
    * Write the cookies into a cache file.
-   * @param client the http client
-   * @throws IOException on error
+   * 
+   * @param client
+   *          the http client
+   * @throws IOException
+   *           on error
    */
   private void writeCookies(HttpClient client) throws IOException {
     StringBuilder cookie = new StringBuilder();
@@ -226,7 +232,7 @@ public class BaseRetriever extends CookieInjectRetriever {
       }
     }
     systemSetting.updateLastApiCalledTime();
-    
+
     Cookie[] co = null;
     File cookieFile = new File(COOKIE_FILE);
     if (cookieFile.exists()) {
@@ -243,7 +249,7 @@ public class BaseRetriever extends CookieInjectRetriever {
             logger.debug("cookie: " + cookieKey + "=" + cookieValue);
           }
           // update the expiration to 1 day.
-          co[i++] = createCookie(".psn.com", cookieKey, cookieValue, "/", DateUtil.DAY);
+          co[i++] = createCookie("playstation", cookieKey, cookieValue, "/", DateUtil.DAY);
         }
       }
     } else {
@@ -254,16 +260,15 @@ public class BaseRetriever extends CookieInjectRetriever {
 
   @Override
   protected void configHttpMethod(HttpClient client, HttpMethod httpMethod) throws RetrieveException {
-    httpMethod.setRequestHeader("Host", "my.playstation.com");
+    httpMethod.setRequestHeader("Host", "io.playstation.com");
     httpMethod.setRequestHeader("Connection", "keep-alive");
     httpMethod.setRequestHeader("Accept", "application/json, text/javascript, */*; q=0.01");
     httpMethod.setRequestHeader("User-Agent",
         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36");
-    httpMethod.setRequestHeader("Referer",
-        "https://www.playstation.com/en-us/my/public-trophies/");
+    httpMethod.setRequestHeader("Referer", "https://www.playstation.com/en-us/my/compare-game-trophies/");
     httpMethod.setRequestHeader("Accept-Encoding", "gzip, deflate, sdch");
     httpMethod.setRequestHeader("Origin", "https://www.playstation.com");
-    httpMethod.setRequestHeader("Accept-Language", "zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4,zh-TW;q=0.2");
+    httpMethod.setRequestHeader("Accept-Language", LANG);
     httpMethod.setRequestHeader("AlexaToolbar-ALX_NS_PH", "AlexaToolbar/alxg-3.3");
   }
 

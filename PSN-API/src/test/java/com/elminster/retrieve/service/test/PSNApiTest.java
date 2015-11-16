@@ -7,9 +7,9 @@ import org.junit.AfterClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.elminster.retrieve.data.user.PSNUserTrophy;
 import com.elminster.retrieve.data.user.PSNUserGame;
 import com.elminster.retrieve.data.user.PSNUserProfile;
+import com.elminster.retrieve.data.user.PSNUserTrophy;
 import com.elminster.retrieve.service.IPSNApi;
 import com.elminster.retrieve.service.PSNApiImpl;
 import com.elminster.retrieve.util.SystemSetting;
@@ -29,17 +29,19 @@ public class PSNApiTest {
   @Ignore
   @Test
   public void testRetrieveUserGameList() throws Exception {
-    String psnUser = "Roughdawg4";
+    //String psnUser = "Roughdawg4";
+    //String psnUser = "akatsuki0126";
+    String psnUser = "truebeibeiking";
     List<PSNUserGame> gameList = api.getPSNUserGameList(psnUser);
     System.out.println(gameList);
   }
   
-  @Ignore
+  //@Ignore
   @Test
   public void testRetrieveUserGameAchieves() throws Exception {
     String[] gameIds = new String[1];
-    gameIds[0] = "NPWR08326_00";
-    String xblUsername = "Roughdawg4";
+    gameIds[0] = "NPWR02011_00";
+    String xblUsername = "akatsuki0126";
     for (String gameId : gameIds) {
       System.out.println("============================================================");
       List<PSNUserTrophy> achieves = api.getPSNUserGameTrophies(xblUsername, gameId);
